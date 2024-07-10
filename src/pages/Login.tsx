@@ -16,8 +16,10 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { LoaderCircle } from "lucide-react";
 import axios from "axios";
+import useTokenStore from "../tokenStore";
 
 const Login = () => {
+  const setToken = useTokenStore((state) => state.setToken);
   const [isLoading, setIsLoading] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -39,6 +41,7 @@ const Login = () => {
       // console.log(response, "response");
 
       if (response.status === 200) {
+        setToken(response.data.token);
         setIsLoading(false);
         navigate("/dashboard/home");
         return toast.success("Login Successfully", {

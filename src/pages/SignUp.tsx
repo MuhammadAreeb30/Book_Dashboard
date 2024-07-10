@@ -14,8 +14,10 @@ import { LoaderCircle } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useTokenStore from "../tokenStore";
 
 const SignUp = () => {
+  const setToken = useTokenStore((state) => state.setToken);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -37,6 +39,7 @@ const SignUp = () => {
       );
       console.log(response, "response");
       if (response.status === 201) {
+        setToken(response.data.token);
         setIsLoading(false);
         navigate("/dashboard/home");
         return toast.success("Account created successfully.", {
