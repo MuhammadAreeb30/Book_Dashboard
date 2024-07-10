@@ -12,17 +12,22 @@ import { Label } from "../components/ui/label";
 import { useRef, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useTokenStore from "../tokenStore";
 
 const SignUp = () => {
-  const setToken = useTokenStore((state) => state.setToken);
+  const { token, setToken } = useTokenStore((state) => state);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  if (token) {
+    return <Navigate to={"/dashboard/home"} />;
+  }
+
   const userRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -44,7 +49,7 @@ const SignUp = () => {
         navigate("/dashboard/home");
         return toast.success("Account created successfully.", {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -57,7 +62,7 @@ const SignUp = () => {
       setIsLoading(false);
       toast.error("Failed to create account", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

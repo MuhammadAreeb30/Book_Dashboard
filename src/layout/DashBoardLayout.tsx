@@ -1,6 +1,14 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import { Bell, CircleUser, Home, Menu, Book, Search } from "lucide-react";
+import {
+  Bell,
+  CircleUser,
+  Home,
+  Menu,
+  Book,
+  Search,
+  LogOut,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -18,8 +26,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../components/ui/dropdown-menu";
+import useTokenStore from "../tokenStore";
+import { toast } from "react-toastify";
 
 const DashBoardLayout = () => {
+  const { token, setToken } = useTokenStore((state) => state);
+  if (!token) {
+    return <Navigate to={"/login"} />;
+  }
+
+  const logOut = () => {
+    setToken("");
+    return toast.success("logged out Successfully.", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -166,7 +195,11 @@ const DashBoardLayout = () => {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button onClick={logOut} variant={"ghost"}>
+                  Logout <LogOut size={15} className="ml-2" />
+                </Button>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>

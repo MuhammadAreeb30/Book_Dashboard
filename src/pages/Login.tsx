@@ -1,5 +1,5 @@
 "use client";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -19,11 +19,15 @@ import axios from "axios";
 import useTokenStore from "../tokenStore";
 
 const Login = () => {
-  const setToken = useTokenStore((state) => state.setToken);
+  const { token, setToken } = useTokenStore((state) => state);
   const [isLoading, setIsLoading] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+
+  if (token) {
+    return <Navigate to={"/dashboard/home"} />;
+  }
 
   const userLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +50,7 @@ const Login = () => {
         navigate("/dashboard/home");
         return toast.success("Login Successfully", {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -59,7 +63,7 @@ const Login = () => {
       setIsLoading(false);
       toast.error("Something went wrong", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
