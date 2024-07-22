@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import useTokenStore from "../tokenStore";
 
 const SignUp = () => {
-  const { token, setToken } = useTokenStore((state) => state);
+  const { token, setToken, setUserId } = useTokenStore((state) => state);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -45,6 +45,7 @@ const SignUp = () => {
       console.log(response, "response");
       if (response.status === 201) {
         setToken(response.data.token);
+        setUserId(response.data.userID);
         setIsLoading(false);
         navigate("/dashboard/home");
         return toast.success("Account created successfully.", {

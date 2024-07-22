@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import DashBoardLayout from "./layout/DashBoardLayout";
 import Books from "./pages/Books";
+import AddBook from "./pages/AddBook";
 
 export const Router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export const Router = createBrowserRouter([
       {
         path: "books",
         element: <Books />,
+      },
+      {
+        path: "add-book",
+        element: <AddBook />,
       },
     ],
   },

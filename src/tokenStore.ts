@@ -3,7 +3,9 @@ import { devtools, persist } from "zustand/middleware";
 
 export interface token {
   token: string;
+  userId: string;
   setToken: (data: string) => void;
+  setUserId: (data: string) => void;
 }
 
 const useTokenStore = create<token>()(
@@ -11,7 +13,9 @@ const useTokenStore = create<token>()(
     persist(
       (set) => ({
         token: "",
-        setToken: (data: string) => set(() => ({ token: data })),
+        userId: "",
+        setToken: (data: string) => set({ token: data }),
+        setUserId: (data: string) => set({userId: data}),
       }),
       {
         name: "token-store",

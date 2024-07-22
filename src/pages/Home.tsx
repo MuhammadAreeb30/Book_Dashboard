@@ -1,4 +1,4 @@
-import { Button } from "../components/ui/button";
+import { Link } from "react-router-dom";
 
 const Page = () => {
   return (
@@ -17,7 +17,7 @@ const Page = () => {
           <p className="text-sm text-muted-foreground">
             You can start selling as soon as you add a Book.
           </p>
-          <Button className="mt-4">Add Book</Button>
+          <Link to={"/dashboard/add-book"} className="mt-4 bg-main text-white py-2 px-6 rounded-md hover:bg-main/90">Add Book</Link>
         </div>
       </div>
     </>

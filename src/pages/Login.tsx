@@ -19,7 +19,7 @@ import axios from "axios";
 import useTokenStore from "../tokenStore";
 
 const Login = () => {
-  const { token, setToken } = useTokenStore((state) => state);
+  const { token, setToken, setUserId } = useTokenStore((state) => state);
   const [isLoading, setIsLoading] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -42,10 +42,11 @@ const Login = () => {
         `${import.meta.env.VITE_BACKEND_AUTH_URI}login`,
         user
       );
-      // console.log(response, "response");
+      console.log(response, "response");
 
       if (response.status === 200) {
         setToken(response.data.token);
+        setUserId(response.data.userID);
         setIsLoading(false);
         navigate("/dashboard/home");
         return toast.success("Login Successfully", {
