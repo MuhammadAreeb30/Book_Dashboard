@@ -37,12 +37,12 @@ const SignUp = () => {
         email: emailRef.current?.value,
         password: passwordRef.current?.value,
       };
-      console.log(user, "user");
+      // console.log(user, "user");
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_AUTH_URI}register`,
         user
       );
-      console.log(response, "response");
+      // console.log(response, "response");
       if (response.status === 201) {
         setToken(response.data.token);
         setUserId(response.data.userID);

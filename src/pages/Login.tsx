@@ -42,7 +42,7 @@ const Login = () => {
         `${import.meta.env.VITE_BACKEND_AUTH_URI}login`,
         user
       );
-      console.log(response, "response");
+      // console.log(response, "response");
 
       if (response.status === 200) {
         setToken(response.data.token);

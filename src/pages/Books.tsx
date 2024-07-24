@@ -7,7 +7,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../components/ui/breadcrumb";
-import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { PlusCircle, Search } from "lucide-react";
 import { Tabs, TabsContent } from "../components/ui/tabs";
@@ -99,12 +98,12 @@ const Books = () => {
                   </CardDescription>
                 </div>
                 <div className="ml-auto flex items-center gap-2">
-                  <Button size="sm" className="h-8 gap-1">
+                  <Link to={"/dashboard/add-book"} className="flex items-center gap-1 mt-4 bg-main text-white py-2 px-4 rounded-md hover:bg-main/90">
                     <PlusCircle className="h-3.5 w-3.5" />
                     <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                       Add Book
                     </span>
-                  </Button>
+                  </Link>
                 </div>
               </CardHeader>
               <CardContent>
