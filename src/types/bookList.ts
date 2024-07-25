@@ -13,4 +13,5 @@ export interface books {
 
 export interface BookTableProps {
   bookList: books[];
+  onBookDeleted: (id: string) => void;
 }

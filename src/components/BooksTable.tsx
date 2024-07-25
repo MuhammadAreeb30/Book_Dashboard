@@ -6,13 +6,24 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash2Icon, Edit2Icon } from "lucide-react";
 import { Button } from "./ui/button";
 
 import { books, BookTableProps } from "../types/bookList";
 import { Badge } from "./ui/badge";
+import { toast } from "react-toastify";
+import axios from "axios";
+import useTokenStore from "../tokenStore";
+import { useEffect, useState } from "react";
 
-const BooksTable: React.FC<BookTableProps> = ({ bookList }) => {
+const BooksTable: React.FC<BookTableProps> = ({ bookList, onBookDeleted }) => {
+  const [books, setBooks] = useState<books[]>([]);
+  const { token } = useTokenStore((state) => state);
+
+  useEffect(() => {
+    setBooks(bookList);
+  }, [bookList]);
+
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -25,9 +36,48 @@ const BooksTable: React.FC<BookTableProps> = ({ bookList }) => {
     return new Date(dateString).toLocaleString("en-US", options);
   };
 
+  // delete book code
+  const deleteBook = async (id: string) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_BOOKS_URI}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 201) {
+        onBookDeleted(id);
+        return toast.success("Book deleted successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } catch (error) {
+      return toast.error("Failed to delete the book. Please try again later.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
   return (
     <TableBody>
-      {bookList.map((book: books) => {
+      {books.map((book: books) => {
+        const { _id } = book;
         return (
           <TableRow key={book._id}>
             <TableCell className="hidden sm:table-cell">
@@ -58,8 +108,17 @@ const BooksTable: React.FC<BookTableProps> = ({ bookList }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer">
+                    <Edit2Icon size={18} className="pr-1" />
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => deleteBook(_id)}
+                  >
+                    <Trash2Icon size={18} className="pr-1" />
+                    Delete
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>
