@@ -6,7 +6,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { MoreHorizontal, Trash2Icon, Edit2Icon, EyeIcon } from "lucide-react";
+import { MoreHorizontal, Trash2Icon, Edit2Icon } from "lucide-react";
 import { Button } from "./ui/button";
 
 import { books, BookTableProps } from "../types/bookList";
@@ -110,13 +110,6 @@ const BooksTable: React.FC<BookTableProps> = ({ bookList, onBookDeleted }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem
-                    className="cursor-pointer"
-                    onClick={() => navigate("#")}
-                  >
-                    <EyeIcon size={18} className="pr-1" />
-                    Preview
-                  </DropdownMenuItem>
                   <DropdownMenuItem
                     className="cursor-pointer"
                     onClick={() => navigate(`/dashboard/edit-book/${_id}`)}
