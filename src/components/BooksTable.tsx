@@ -6,7 +6,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { MoreHorizontal, Trash2Icon, Edit2Icon } from "lucide-react";
+import { MoreHorizontal, Trash2Icon, Edit2Icon, EyeIcon } from "lucide-react";
 import { Button } from "./ui/button";
 
 import { books, BookTableProps } from "../types/bookList";
@@ -15,10 +15,12 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import useTokenStore from "../tokenStore";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const BooksTable: React.FC<BookTableProps> = ({ bookList, onBookDeleted }) => {
   const [books, setBooks] = useState<books[]>([]);
   const { token } = useTokenStore((state) => state);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setBooks(bookList);
@@ -108,7 +110,17 @@ const BooksTable: React.FC<BookTableProps> = ({ bookList, onBookDeleted }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem className="cursor-pointer">
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => navigate("#")}
+                  >
+                    <EyeIcon size={18} className="pr-1" />
+                    Preview
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => navigate(`/dashboard/edit-book/${_id}`)}
+                  >
                     <Edit2Icon size={18} className="pr-1" />
                     Edit
                   </DropdownMenuItem>
