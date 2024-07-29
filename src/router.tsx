@@ -5,6 +5,7 @@ import SignUp from "./pages/SignUp";
 import DashBoardLayout from "./layout/DashBoardLayout";
 import Books from "./pages/Books";
 import AddBook from "./pages/AddBook";
+import EditBook from "./pages/EditBook";
 
 export const Router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const Router = createBrowserRouter([
         path: "add-book",
         element: <AddBook />,
       },
+      {
+        path: "edit-book/:id",
+        element: <EditBook />
+      }
     ],
   },
   { path: "/login", element: <Login /> },
